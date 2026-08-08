@@ -1,4 +1,4 @@
-FROM nginxinc/nginx-unprivileged:1.29-alpine
+FROM nginxinc/nginx-unprivileged:1.31-alpine
 
 COPY deploy/default.conf /etc/nginx/conf.d/default.conf
 COPY index.html favicon.svg favicon.ico favicon.png site.webmanifest /usr/share/nginx/html/
