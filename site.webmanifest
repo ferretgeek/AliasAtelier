@@ -1,0 +1,14 @@
+{
+  "name": "别名工坊 · Alias Atelier",
+  "short_name": "别名工坊",
+  "description": "纯本地、零上传的邮箱 + 地址生成器。",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#eef8ff",
+  "theme_color": "#eef8ff",
+  "icons": [
+    { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "favicon.ico", "sizes": "16x16 32x32 48x48", "type": "image/x-icon", "purpose": "any" },
+    { "src": "favicon.png", "sizes": "256x256", "type": "image/png", "purpose": "any" }
+  ]
+}

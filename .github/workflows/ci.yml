@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: "24"
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.10"
+          cache: pip
+      - name: Install audit tools
+        run: python -m pip install -r requirements-dev.txt
+      - name: Test browser core
+        run: node --test tests/alias-core.test.js
+      - name: Test local server
+        run: python -m unittest discover -s tests -p 'test_*.py' -v
+      - name: Compile and lint Python
+        run: |
+          python -m compileall -q scripts tests
+          ruff check scripts tests
+      - name: Audit Python dependencies
+        run: python -m pip_audit -r requirements.txt
+      - name: Run high-severity static security checks
+        run: bandit -q -lll -r scripts
+      - name: Scan source for secrets
+        run: |
+          detect-secrets scan --all-files assets deploy docs scripts tests index.html README.md README_EN.md SECURITY.md > /tmp/detect-secrets.json
+          python - <<'PY'
+          import json
+
+          with open("/tmp/detect-secrets.json", encoding="utf-8") as handle:
+              report = json.load(handle)
+          findings = sum(len(items) for items in report["results"].values())
+          if findings:
+              for filename, items in sorted(report["results"].items()):
+                  for item in items:
+                      print(f"{filename}:{item['line_number']}: {item['type']}")
+              raise SystemExit(f"detect-secrets found {findings} unresolved result(s)")
+          PY
+      - name: Verify public assets
+        run: |
+          python - <<'PY'
+          import struct
+          from pathlib import Path
+
+          def png_size(path):
+              data = path.read_bytes()
+              assert data.startswith(b"\x89PNG\r\n\x1a\n")
+              assert data[12:16] == b"IHDR"
+              return struct.unpack(">II", data[16:24])
+
+          social = Path("docs/images/social-preview.png")
+          dashboard = Path("docs/images/dashboard.png")
+          assert png_size(social) == (1280, 640)
+          assert png_size(dashboard)[0] >= 1280
+          assert social.stat().st_size < 1_000_000
+          assert Path("favicon.ico").stat().st_size > 1024
+          PY

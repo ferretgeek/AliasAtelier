@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="sky">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="别名工坊是一款纯本地邮箱 + 地址生成器，支持 Gmail、Microsoft、iCloud 兼容性模式与自定义域。">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#eef8ff">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'">
+  <title>别名工坊 · Alias Atelier</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="favicon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="stylesheet" href="assets/app.css">
+  <script src="assets/alias-core.js" defer></script>
+  <script src="assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#workspace">跳到工作区</a>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="别名工坊首页">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48"><path d="M12 10.5h24a5 5 0 0 1 5 5v17a5 5 0 0 1-5 5H12a5 5 0 0 1-5-5v-17a5 5 0 0 1 5-5Z"/><path d="m9.5 15 14.5 11L38.5 15"/><path d="M32.5 5.5v10M27.5 10.5h10"/></svg>
+      </span>
+      <span><strong>别名工坊</strong><small>Alias Atelier</small></span>
+    </a>
+
+    <div class="top-actions">
+      <span class="privacy-pill"><span></span>只在本机处理</span>
+      <div class="theme-switcher" aria-label="全局主题">
+        <span class="theme-label">主题</span>
+        <button class="theme-dot sky active" type="button" data-theme-choice="sky" aria-label="天光主题" title="天光"></button>
+        <button class="theme-dot jade" type="button" data-theme-choice="jade" aria-label="青瓷主题" title="青瓷"></button>
+        <button class="theme-dot sunset" type="button" data-theme-choice="sunset" aria-label="暮霞主题" title="暮霞"></button>
+        <button class="theme-dot graphite" type="button" data-theme-choice="graphite" aria-label="深灰主题" title="深灰"></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">LOCAL-FIRST · ZERO UPLOAD</p>
+        <h1 id="hero-title">把一枚邮箱地址，<br><em>折成一组有秩序的入口。</em></h1>
+        <p class="hero-intro">粘贴、预览、带走。地址与附加字段始终停留在浏览器内存，不经过服务器，也不留在历史记录里。</p>
+        <div class="hero-notes" aria-label="产品特性">
+          <span><i>01</i>纯本地转换</span>
+          <span><i>02</i>敏感字段默认剥离</span>
+          <span><i>03</i>最多 20 万个结果</span>
+        </div>
+      </div>
+
+      <aside class="hero-art" aria-label="别名生成示意">
+        <div class="orbit orbit-a"></div>
+        <div class="orbit orbit-b"></div>
+        <div class="letter letter-main">
+          <span class="letter-index">MAIN</span>
+          <strong>you<span>@</span>mail.com</strong>
+          <small>一处收件，清晰归档</small>
+        </div>
+        <div class="letter letter-one"><span>+</span>notes</div>
+        <div class="letter letter-two"><span>+</span>shop</div>
+        <div class="letter letter-three"><span>+</span>work</div>
+      </aside>
+    </section>
+
+    <section class="workspace" id="workspace" aria-labelledby="workspace-title">
+      <div class="section-heading">
+        <div><span class="section-kicker">WORKBENCH</span><h2 id="workspace-title">开始编排</h2></div>
+        <p>服务商支持情况会被明确标注；工具只生成地址，不创建邮箱账号。</p>
+      </div>
+
+      <div class="work-grid">
+        <section class="panel input-panel" aria-labelledby="input-title">
+          <div class="panel-head">
+            <div><span class="step">01</span><h3 id="input-title">放入源地址</h3></div>
+            <button class="text-button" id="demo-button" type="button">载入安全示例</button>
+          </div>
+
+          <label class="drop-zone" id="drop-zone" for="file-input">
+            <input id="file-input" type="file" accept=".txt,text/plain" hidden>
+            <span class="drop-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M5 13v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></svg>
+            </span>
+            <span><strong>选择或拖入 TXT</strong><small>文件不会上传，最大 5 MB</small></span>
+          </label>
+
+          <div class="field-row">
+            <label class="field-label" for="source-input">也可以直接粘贴</label>
+            <span class="live-count" id="source-count">0 条记录</span>
+          </div>
+          <textarea id="source-input" spellcheck="false" autocomplete="off" placeholder="name@gmail.com&#10;name@outlook.com----[附加字段]" aria-describedby="input-help"></textarea>
+          <p class="field-help" id="input-help">支持纯邮箱、<code>邮箱----附加字段</code>，以及 Gmail 邮箱与附加字段分两行。</p>
+          <div class="parse-status" id="parse-status" role="status">等待输入</div>
+        </section>
+
+        <section class="panel settings-panel" aria-labelledby="settings-title">
+          <div class="panel-head"><div><span class="step">02</span><h3 id="settings-title">定下规则</h3></div></div>
+
+          <div class="form-grid">
+            <label class="control wide"><span>服务商</span>
+              <select id="provider-select">
+                <option value="auto">自动识别 · Gmail + Microsoft</option>
+                <option value="gmail">仅 Gmail / Google Workspace</option>
+                <option value="microsoft">仅 Microsoft / Exchange Online</option>
+                <option value="icloud">iCloud · 兼容性实验</option>
+                <option value="custom">任意域名 · 兼容性实验</option>
+              </select>
+            </label>
+
+            <label class="control"><span>每个邮箱生成</span>
+              <div class="number-field"><input id="count-input" type="number" min="1" max="50000" value="5" inputmode="numeric"><small>个</small></div>
+            </label>
+
+            <label class="control"><span>标签前缀</span>
+              <input id="prefix-input" type="text" maxlength="24" value="g" spellcheck="false" autocomplete="off">
+            </label>
+
+            <label class="control wide"><span>输入格式</span>
+              <select id="format-select">
+                <option value="auto">自动判断</option>
+                <option value="single">每行一条</option>
+                <option value="paired">邮箱与附加字段分两行</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="switch-list">
+            <label class="switch-row">
+              <span><strong>保留原邮箱</strong><small>在每组别名前放回源地址</small></span>
+              <input id="original-toggle" type="checkbox"><i aria-hidden="true"></i>
+            </label>
+            <label class="switch-row sensitive-switch">
+              <span><strong>保留附加字段</strong><small>可能包含密码或令牌，默认安全剥离</small></span>
+              <input id="metadata-toggle" type="checkbox"><i aria-hidden="true"></i>
+            </label>
+          </div>
+
+          <label class="control output-format hidden" id="output-format-wrap"><span>附加字段输出格式</span>
+            <select id="output-format-select">
+              <option value="single">邮箱----附加字段</option>
+              <option value="paired">邮箱与附加字段分两行</option>
+            </select>
+          </label>
+
+          <div class="provider-note" id="provider-note">
+            <span aria-hidden="true">✓</span>
+            <p><strong>稳妥默认值</strong>自动模式只处理有公开支持依据的 Gmail 与 Microsoft + 地址。</p>
+          </div>
+
+          <button class="primary-button" id="generate-button" type="button">
+            <span>生成别名</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg>
+          </button>
+        </section>
+      </div>
+    </section>
+
+    <section class="results" id="results" aria-labelledby="results-title">
+      <div class="section-heading results-heading">
+        <div><span class="section-kicker">RESULT</span><h2 id="results-title">结果预览</h2></div>
+        <div class="result-actions">
+          <button class="secondary-button" id="copy-button" type="button" disabled>复制全部</button>
+          <button class="primary-button compact" id="download-button" type="button" disabled>下载 TXT</button>
+        </div>
+      </div>
+
+      <div class="stats-grid" aria-live="polite">
+        <article><span>读取记录</span><strong id="stat-records">0</strong></article>
+        <article><span>生成别名</span><strong id="stat-generated">0</strong></article>
+        <article><span>跳过记录</span><strong id="stat-skipped">0</strong></article>
+        <article><span>输出行数</span><strong id="stat-lines">0</strong></article>
+      </div>
+
+      <div class="result-card">
+        <div class="result-toolbar">
+          <span><i></i>安全预览 · 附加字段始终遮挡</span>
+          <span id="preview-limit">尚未生成</span>
+        </div>
+        <pre id="output-preview" tabindex="0"><span class="empty-state">结果会在这里展开。先放入地址，再定下规则。</span></pre>
+        <div class="warnings hidden" id="warnings" role="status"></div>
+      </div>
+    </section>
+
+    <section class="trust-section" aria-labelledby="trust-title">
+      <div class="trust-copy"><span class="section-kicker">A QUIET PROMISE</span><h2 id="trust-title">隐私不是开关，<br>而是这间工坊的结构。</h2></div>
+      <div class="trust-grid">
+        <article><span>01</span><h3>没有上传</h3><p>页面没有分析、字体、接口或外部资源请求；转换只发生在当前标签页。</p></article>
+        <article><span>02</span><h3>默认少留</h3><p>密码、令牌一类附加字段默认不进入输出；预览即使保留也只显示遮罩。</p></article>
+        <article><span>03</span><h3>诚实边界</h3><p>Gmail 与 Microsoft 有公开支持依据；iCloud 和自定义域始终标注为实验模式。</p></article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>Alias Atelier · 在本地，把混乱理成线索。</span>
+    <a href="https://github.com/ferretgeek/AliasAtelier" rel="noreferrer">GitHub</a>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
