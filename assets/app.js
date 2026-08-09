@@ -204,8 +204,8 @@
   });
   elements.demo.addEventListener("click", () => {
     elements.source.value = [
-      "garden.notes@gmail.com----[example-only]",
-      "studio.archive@outlook.com----[example-only]"
+      "garden.notes@gmail.example----[example-only]",
+      "studio.archive@outlook.example----[example-only]"
     ].join("\n");
     parseSource();
     notify("已载入不含真实身份的安全示例。 ");

@@ -50,7 +50,7 @@ docker compose up -d --build
 | 模式 | 工具行为 | 依据与边界 |
 | --- | --- | --- |
 | 自动识别 | 只处理 Gmail 与 Microsoft | 推荐默认值 |
-| Gmail | 生成 `name+tag@gmail.com` | [Google 官方说明](https://support.google.com/a/users/answer/9282734)说明标签地址会进入当前收件箱 |
+| Gmail | 生成 `name+tag@gmail.example`（文档中的保留示例域名） | [Google 官方说明](https://support.google.com/a/users/answer/9282734)说明标签地址会进入当前收件箱 |
 | Microsoft | 生成 Exchange Online Plus Addressing | [Microsoft 官方文档](https://learn.microsoft.com/exchange/recipients-in-exchange-online/plus-addressing-in-exchange-online)说明其默认开启，但组织管理员可以关闭 |
 | iCloud | 仅在用户主动选择后生成候选地址 | Apple 官方介绍的是[已创建的 iCloud 别名](https://support.apple.com/guide/icloud/mm6b1a490a/icloud)与 [Hide My Email](https://support.apple.com/guide/icloud/create-and-edit-addresses-mm1a876f7aed/icloud)，没有承诺动态 `+tag`；必须先实测 |
 | 任意域名 | 生成候选地址 | 是否投递完全取决于邮件服务商 |

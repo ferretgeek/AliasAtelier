@@ -9,12 +9,13 @@
   const MAX_ALIASES = 200000;
   const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const PREFIX_RE = /^[A-Za-z0-9_-]{1,24}$/;
-  const GMAIL_DOMAINS = new Set(["gmail.com", "googlemail.com"]);
-  const ICLOUD_DOMAINS = new Set(["icloud.com", "me.com", "mac.com"]);
+  // *.example variants keep bundled demos and tests inside RFC-reserved space.
+  const GMAIL_DOMAINS = new Set(["gmail.com", "googlemail.com", "gmail.example"]);
+  const ICLOUD_DOMAINS = new Set(["icloud.com", "me.com", "mac.com", "icloud.example"]);
   const MICROSOFT_DOMAINS = new Set([
     "hotmail.com", "outlook.com", "live.com", "msn.com", "windowslive.com",
     "hotmail.co.uk", "hotmail.fr", "hotmail.de", "hotmail.it", "hotmail.es",
-    "hotmail.co.jp", "outlook.co.uk", "outlook.fr", "outlook.de"
+    "hotmail.co.jp", "outlook.co.uk", "outlook.fr", "outlook.de", "outlook.example"
   ]);
 
   function normalizeText(value) {

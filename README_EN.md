@@ -50,7 +50,7 @@ Then open `http://127.0.0.1:8080`. See the [deployment guide](docs/部署说明.
 | Mode | Behavior | Evidence and limit |
 | --- | --- | --- |
 | Auto | Gmail and Microsoft only | Recommended default |
-| Gmail | Builds `name+tag@gmail.com` | [Google's documentation](https://support.google.com/a/users/answer/9282734) says tagged variations arrive in the current inbox |
+| Gmail | Builds `name+tag@gmail.example` (the reserved example domain used in this guide) | [Google's documentation](https://support.google.com/a/users/answer/9282734) says tagged variations arrive in the current inbox |
 | Microsoft | Builds Exchange Online plus addresses | [Microsoft's documentation](https://learn.microsoft.com/exchange/recipients-in-exchange-online/plus-addressing-in-exchange-online) says it is enabled by default, but an organization can disable it |
 | iCloud | Builds candidates only after explicit selection | Apple documents [configured aliases](https://support.apple.com/guide/icloud/mm6b1a490a/icloud) and [Hide My Email](https://support.apple.com/guide/icloud/create-and-edit-addresses-mm1a876f7aed/icloud), not dynamic `+tag`; test delivery first |
 | Any domain | Builds candidates | Delivery depends entirely on the provider |
