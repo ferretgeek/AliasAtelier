@@ -1,7 +1,7 @@
 <div align="center">
   <img src="docs/images/social-preview.png" alt="别名工坊界面预览" width="100%">
 
-  # 别名工坊 · Alias Atelier
+  # 别名工坊 / Alias Atelier — 邮箱 +Tag 地址生成器
 
   **把一枚邮箱地址，折成一组有秩序的入口。**
 

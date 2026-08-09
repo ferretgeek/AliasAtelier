@@ -1,7 +1,7 @@
 <div align="center">
   <img src="docs/images/social-preview.png" alt="Alias Atelier interface preview" width="100%">
 
-  # Alias Atelier · 别名工坊
+  # Alias Atelier / 别名工坊 — Email +Tag Generator
 
   **Fold one mailbox into an orderly set of entrances.**
 
