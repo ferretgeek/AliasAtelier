@@ -17,6 +17,8 @@
 
 ![工作台实景](docs/images/dashboard.png)
 
+![别名工坊入口与产品设计语言](docs/images/intro.png)
+
 ## 它能做什么
 
 - 自动识别 Gmail 与 Microsoft / Exchange Online 地址。

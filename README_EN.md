@@ -17,6 +17,8 @@ Alias Atelier is a local-first generator for `+tag` email addresses. It recogniz
 
 ![Live workbench](docs/images/dashboard.png)
 
+![Alias Atelier entry and product design language](docs/images/intro.png)
+
 ## What it does
 
 - Automatically recognizes Gmail and Microsoft / Exchange Online addresses.
