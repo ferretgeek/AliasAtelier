@@ -7,7 +7,8 @@ import mimetypes
 import re
 import threading
 from http import HTTPStatus
-from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer as _ThreadingHTTPServer
+from http.server import BaseHTTPRequestHandler
+from http.server import ThreadingHTTPServer as _ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 

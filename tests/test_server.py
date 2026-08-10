@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 import importlib.util
+import io
 import threading
 import unittest
-import io
 from contextlib import redirect_stdout
 from http.client import HTTPConnection
 from pathlib import Path
