@@ -93,7 +93,7 @@
             <label class="field-label" for="source-input">也可以直接粘贴</label>
             <span class="live-count" id="source-count">0 条记录</span>
           </div>
-          <textarea id="source-input" spellcheck="false" autocomplete="off" placeholder="name@gmail.example&#10;name@outlook.example----[附加字段]" aria-describedby="input-help"></textarea>
+          <textarea id="source-input" maxlength="5242880" spellcheck="false" autocomplete="off" placeholder="name@gmail.example&#10;name@outlook.example----[附加字段]" aria-describedby="input-help"></textarea>
           <p class="field-help" id="input-help">支持纯邮箱、<code>邮箱----附加字段</code>，以及 Gmail 邮箱与附加字段分两行。</p>
           <div class="parse-status" id="parse-status" role="status">等待输入</div>
         </section>

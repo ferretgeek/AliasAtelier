@@ -3,6 +3,8 @@ from __future__ import annotations
 import importlib.util
 import threading
 import unittest
+import io
+from contextlib import redirect_stdout
 from http.client import HTTPConnection
 from pathlib import Path
 
@@ -57,6 +59,20 @@ class ServerTests(unittest.TestCase):
     def test_unknown_and_traversal_paths_are_not_served(self) -> None:
         self.assertEqual(self.request("/missing.txt")[0], 404)
         self.assertEqual(self.request("/..%2FREADME.md")[0], 404)
+
+    def test_server_bounds_threads_and_sanitizes_log_controls(self) -> None:
+        module = load_server_module()
+        self.assertEqual(self.server.connection_slots._value, 64)
+        output = io.StringIO()
+        with redirect_stdout(output):
+            module.Handler.log_message(
+                type("Fake", (), {"client_address": ("127.0.0.1", 1)})(),
+                "%s",
+                "line-one\n\x1b[31mforged",
+            )
+        rendered = output.getvalue()
+        self.assertNotIn("\x1b", rendered)
+        self.assertEqual(rendered.count("\n"), 1)
 
 
 if __name__ == "__main__":

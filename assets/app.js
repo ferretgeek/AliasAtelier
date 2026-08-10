@@ -60,7 +60,15 @@
   }
 
   function parseSource() {
-    parsed = core.parseInput(elements.source.value, { format: elements.format.value });
+    try {
+      parsed = core.parseInput(elements.source.value, { format: elements.format.value });
+    } catch (error) {
+      parsed = { records: [], ignored: 0, diagnostics: [] };
+      elements.sourceCount.textContent = "0 条记录";
+      elements.parseStatus.textContent = error instanceof Error ? error.message : "输入无法解析";
+      elements.parseStatus.className = "parse-status error";
+      return parsed;
+    }
     elements.sourceCount.textContent = `${parsed.records.length.toLocaleString()} 条记录`;
     if (!elements.source.value.trim()) {
       elements.parseStatus.textContent = "等待输入";

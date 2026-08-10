@@ -7,6 +7,11 @@
 
   const SEPARATOR = "----";
   const MAX_ALIASES = 200000;
+  const MAX_INPUT_CHARS = 5 * 1024 * 1024;
+  const MAX_INPUT_LINES = 100000;
+  const MAX_LINE_CHARS = 4096;
+  const MAX_DIAGNOSTICS = 200;
+  const MAX_OUTPUT_BYTES = 32 * 1024 * 1024;
   const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const PREFIX_RE = /^[A-Za-z0-9_-]{1,24}$/;
   // *.example variants keep bundled demos and tests inside RFC-reserved space.
@@ -24,6 +29,7 @@
 
   function splitEmail(value) {
     const email = String(value || "").trim();
+    if (email.length > 320) return null;
     if (!EMAIL_RE.test(email)) return null;
     const at = email.lastIndexOf("@");
     return {
@@ -47,7 +53,15 @@
 
   function parseInput(value, options) {
     const format = options && options.format ? options.format : "auto";
-    const lines = normalizeText(value).split("\n");
+    const normalized = normalizeText(value);
+    if (normalized.length > MAX_INPUT_CHARS) throw new Error("输入超过 5 MiB 字符安全上限，请拆分后处理。");
+    let lineCount = 1;
+    for (let index = 0; index < normalized.length; index += 1) {
+      if (normalized.charCodeAt(index) === 10 && ++lineCount > MAX_INPUT_LINES) {
+        throw new Error(`输入超过 ${MAX_INPUT_LINES.toLocaleString()} 行安全上限，请拆分后处理。`);
+      }
+    }
+    const lines = normalized.split("\n");
     const records = [];
     const diagnostics = [];
     let ignored = 0;
@@ -56,23 +70,28 @@
       const raw = lines[index];
       const clean = raw.trim();
       if (!clean || clean.startsWith("#")) continue;
+      if (raw.length > MAX_LINE_CHARS) {
+        ignored += 1;
+        if (diagnostics.length < MAX_DIAGNOSTICS) diagnostics.push({ line: index + 1, type: "invalid", message: "单行超过安全上限" });
+        continue;
+      }
 
       if (clean.includes(SEPARATOR)) {
         const parts = clean.split(SEPARATOR);
         const parsed = splitEmail(parts.shift());
         if (!parsed) {
           ignored += 1;
-          diagnostics.push({ line: index + 1, type: "invalid", message: "未识别为邮箱记录" });
+          if (diagnostics.length < MAX_DIAGNOSTICS) diagnostics.push({ line: index + 1, type: "invalid", message: "未识别为邮箱记录" });
           continue;
         }
-        records.push({ ...parsed, metadata: parts.join(SEPARATOR).trim(), sourceLine: index + 1 });
+        records.push({ ...parsed, metadata: parts.join(SEPARATOR).trim().slice(0, MAX_LINE_CHARS), sourceLine: index + 1 });
         continue;
       }
 
       const parsed = splitEmail(clean);
       if (!parsed) {
         ignored += 1;
-        diagnostics.push({ line: index + 1, type: "invalid", message: "未识别为邮箱记录" });
+        if (diagnostics.length < MAX_DIAGNOSTICS) diagnostics.push({ line: index + 1, type: "invalid", message: "未识别为邮箱记录" });
         continue;
       }
 
@@ -81,8 +100,9 @@
       const allowPair = format === "paired" || (format === "auto" && providerForDomain(parsed.domain) === "gmail");
       if (allowPair && index + 1 < lines.length) {
         const candidate = lines[index + 1].trim();
-        if (candidate && !candidate.startsWith("#") && !splitEmail(candidate)) {
-          metadata = candidate;
+        const explicitPair = format === "paired";
+        if (candidate && !candidate.startsWith("#") && (explicitPair || !splitEmail(candidate))) {
+          metadata = candidate.slice(0, MAX_LINE_CHARS);
           index += 1;
         }
       }
@@ -118,6 +138,28 @@
     return `${email}${SEPARATOR}${metadata}`;
   }
 
+  function utf8Length(value) {
+    return new TextEncoder().encode(String(value || "")).length;
+  }
+
+  function validateOutputBudget(records, settings, count) {
+    let bytes = 0;
+    function add(email, metadata) {
+      bytes += utf8Length(buildLine(email, metadata, settings)) + 1;
+      if (bytes > MAX_OUTPUT_BYTES) {
+        throw new Error("预计输出超过 32 MiB 安全上限，请减少输入、数量或附加字段。");
+      }
+    }
+    for (const record of records) {
+      const actual = providerForDomain(record.domain);
+      if (!providerMatches(actual, settings.provider) || record.local.includes("+")) continue;
+      if (settings.includeOriginal) add(record.email, record.metadata);
+      for (let index = 1; index <= count; index += 1) {
+        add(`${record.local}+${settings.prefix}${index}@${record.domain}`, record.metadata);
+      }
+    }
+  }
+
   function generate(records, rawSettings) {
     const settings = {
       provider: "auto",
@@ -129,6 +171,7 @@
       ...rawSettings
     };
     const count = validateSettings(settings, records.length);
+    validateOutputBudget(records, settings, count);
     const lines = [];
     const preview = [];
     const seen = new Set();
@@ -184,6 +227,9 @@
 
   return {
     MAX_ALIASES,
+    MAX_INPUT_CHARS,
+    MAX_INPUT_LINES,
+    MAX_OUTPUT_BYTES,
     SEPARATOR,
     generate,
     normalizeText,

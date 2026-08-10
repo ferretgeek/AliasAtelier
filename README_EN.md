@@ -25,6 +25,7 @@ Alias Atelier is a local-first generator for `+tag` email addresses. It recogniz
 - Keeps iCloud and arbitrary domains in explicitly labeled compatibility experiments.
 - Generates 1–50,000 tags per address, capped at 200,000 results per run.
 - Optionally retains the source address, opaque metadata, and single-line or paired output.
+- Bounds pasted text before line allocation (5 MiB characters / 100,000 lines), retains at most 200 diagnostics, and applies a separate 32 MiB UTF-8 output cap.
 - Drops metadata by default and always masks it in the on-screen preview.
 - Offers four global themes: Sky, Jade, Sunset, and deep-gray Graphite.
 - Uses no remote font, analytics script, API request, or third-party runtime dependency.
@@ -38,6 +39,7 @@ python scripts/serve.py
 ```
 
 Open `http://127.0.0.1:4173`. Opening `index.html` directly also works, while the local server supplies stronger security headers.
+The local server also applies a 10-second socket deadline, a 64-thread admission cap, and bounded single-line request logs.
 
 For Docker:
 

@@ -16,6 +16,12 @@ test("pairs Gmail two-line records in automatic mode", () => {
   assert.equal(result.records[0].metadata, "[example-only]");
 });
 
+test("explicit paired mode consumes email-shaped metadata as opaque data", () => {
+  const result = core.parseInput("artist@gmail.example\nmetadata@example.invalid\n", { format: "paired" });
+  assert.equal(result.records.length, 1);
+  assert.equal(result.records[0].metadata, "metadata@example.invalid");
+});
+
 test("does not pair Microsoft records implicitly", () => {
   const result = core.parseInput("artist@outlook.example\nnot-an-account\n", { format: "auto" });
   assert.equal(result.records.length, 1);
@@ -70,5 +76,20 @@ test("unsafe prefixes and oversized jobs are rejected", () => {
   assert.throws(
     () => core.generate(Array(5).fill(records[0]), { count: 50000, prefix: "g" }),
     /超过/
+  );
+});
+
+test("input lines, diagnostics, and output bytes are independently bounded", () => {
+  assert.throws(
+    () => core.parseInput("x\n".repeat(core.MAX_INPUT_LINES + 1), { format: "single" }),
+    /行安全上限/
+  );
+  const invalid = core.parseInput("not-an-email\n".repeat(500), { format: "single" });
+  assert.equal(invalid.ignored, 500);
+  assert.equal(invalid.diagnostics.length, 200);
+  const record = core.parseInput(`artist@gmail.example----${"m".repeat(4000)}`, { format: "single" }).records[0];
+  assert.throws(
+    () => core.generate([record], { provider: "gmail", count: 10000, prefix: "g", keepMetadata: true }),
+    /32 MiB/
   );
 });

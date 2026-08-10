@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Made the generated-result view the primary profile and social preview, retained the full workbench and entry composition as complementary README images, and used synthetic data throughout.
+- Bound pasted input before splitting, cap retained diagnostics and exact UTF-8 output bytes, make explicit paired mode consume its second line as opaque metadata, and add socket deadlines, bounded server threads, and terminal-safe request logging.
 
 ## 1.0.0 - 2026-08-08
 
