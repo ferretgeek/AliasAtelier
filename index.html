@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="别名工坊是一款纯本地邮箱 + 地址生成器，支持 Gmail、Microsoft、iCloud 兼容性模式与自定义域。">
+  <meta name="description" content="纯本地的邮箱 +tag 别名生成器，支持 Gmail、Microsoft、iCloud 兼容性模式与自定义域名。数据不出浏览器。">
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#eef8ff">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'">
-  <title>别名工坊 · Alias Atelier</title>
+  <title>邮箱别名生成器</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="icon" href="favicon.ico" sizes="any">
   <link rel="apple-touch-icon" href="favicon.png">
@@ -22,11 +22,11 @@
   <div class="ambient ambient-two" aria-hidden="true"></div>
 
   <header class="topbar">
-    <a class="brand" href="#top" aria-label="别名工坊首页">
+    <a class="brand" href="#top" aria-label="邮箱别名生成器首页">
       <span class="brand-mark" aria-hidden="true">
         <svg viewBox="0 0 48 48"><path d="M12 10.5h24a5 5 0 0 1 5 5v17a5 5 0 0 1-5 5H12a5 5 0 0 1-5-5v-17a5 5 0 0 1 5-5Z"/><path d="m9.5 15 14.5 11L38.5 15"/><path d="M32.5 5.5v10M27.5 10.5h10"/></svg>
       </span>
-      <span><strong>别名工坊</strong><small>Alias Atelier</small></span>
+      <span><strong>邮箱别名生成器</strong><small>纯本地 · 不上传</small></span>
     </a>
 
     <div class="top-actions">
@@ -45,7 +45,7 @@
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero-copy">
         <p class="eyebrow">LOCAL-FIRST · ZERO UPLOAD</p>
-        <h1 id="hero-title">把一枚邮箱地址，<br><em>折成一组有秩序的入口。</em></h1>
+        <h1 id="hero-title">一个邮箱地址，<br><em>拆成一组带标签的收件地址。</em></h1>
         <p class="hero-intro">粘贴、预览、带走。地址与附加字段始终停留在浏览器内存，不经过服务器，也不留在历史记录里。</p>
         <div class="hero-notes" aria-label="产品特性">
           <span><i>01</i>纯本地转换</span>
@@ -186,7 +186,7 @@
     </section>
 
     <section class="trust-section" aria-labelledby="trust-title">
-      <div class="trust-copy"><span class="section-kicker">A QUIET PROMISE</span><h2 id="trust-title">隐私不是开关，<br>而是这间工坊的结构。</h2></div>
+      <div class="trust-copy"><span class="section-kicker">A QUIET PROMISE</span><h2 id="trust-title">隐私不是一个开关，<br>而是这个页面的结构。</h2></div>
       <div class="trust-grid">
         <article><span>01</span><h3>没有上传</h3><p>页面没有分析、字体、接口或外部资源请求；转换只发生在当前标签页。</p></article>
         <article><span>02</span><h3>默认少留</h3><p>密码、令牌一类附加字段默认不进入输出；预览即使保留也只显示遮罩。</p></article>
@@ -197,7 +197,7 @@
 
   <footer>
     <span>Alias Atelier · 在本地，把混乱理成线索。</span>
-    <a href="https://github.com/ferretgeek/AliasAtelier" rel="noreferrer">GitHub</a>
+    <a href="https://github.com/ferretgeek/email-alias-generator" rel="noreferrer">GitHub</a>
   </footer>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>

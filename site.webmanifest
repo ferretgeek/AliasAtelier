@@ -1,6 +1,6 @@
 {
-  "name": "别名工坊 · Alias Atelier",
-  "short_name": "别名工坊",
+  "name": "邮箱别名生成器",
+  "short_name": "别名生成器",
   "description": "纯本地、零上传的邮箱 + 地址生成器。",
   "start_url": "/",
   "display": "standalone",

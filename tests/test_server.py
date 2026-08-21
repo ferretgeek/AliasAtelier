@@ -46,7 +46,7 @@ class ServerTests(unittest.TestCase):
     def test_home_has_strict_privacy_headers(self) -> None:
         status, headers, body = self.request("/")
         self.assertEqual(status, 200)
-        self.assertIn("别名工坊".encode(), body)
+        self.assertIn("邮箱别名生成器".encode(), body)
         self.assertIn("connect-src 'none'", headers["content-security-policy"])
         self.assertEqual(headers["x-content-type-options"], "nosniff")
         self.assertEqual(headers["cache-control"], "no-store")
